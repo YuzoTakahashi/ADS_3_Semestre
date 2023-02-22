@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Scanner;
 
-public class TestaCarrinho {
+public class    TestaCarrinho {
     public static Carrinho carrinho = new Carrinho();
     public static Scanner leitorNL = new Scanner(System.in);
     public static Scanner leitor = new Scanner(System.in);
