@@ -29,39 +29,40 @@ public class ContaController {
     }
 
     @PostMapping("/autenticacao/{usuario}/{senha}")
-    public Conta autenticar(@PathVariable String usuario, @PathVariable String senha){
-        for(Conta c : contas){
-            if(c.getUsuario() == usuario && c.getSenha() == senha){
+    public String autenticar(@PathVariable String usuario, @PathVariable String senha){
+        for (Conta c: contas) {
+            if(c.getUsuario().equals(usuario) && c.getSenha().equals((senha))){
                 c.setAutenticado(true);
-                return  c;
+                return  "deu bom if";
             }
+            return  "deu bom for";
         }
-        return null;
+        return "deu ruim";
     }
 
-    @DeleteMapping("/autenticacao/{usuario}")
+    @DeleteMapping("/{usuario}")
     public String deletar(@PathVariable String usuario){
         for(Conta c : contas){
-            if(c.getUsuario() == usuario){
+            if(c.getUsuario().equals(usuario)){
                 if(c.isAutenticado()) {
                     c.setAutenticado(false);
                     return "Logoff do usuário " + c.getNome() + " concluído";
                 }else{
-                    return "Usuario" + c.getNome() + " NÃO encontrado";
+                    return "Usuario " + c.getNome() + " NÃO está autenticado";
                 }
             }
         }
         return "Usuário " + usuario + " não encontrado";
     }
 
-    @PutMapping("{usuario}/{senhaAntiga}/{senhaNova}")
-    public String alterarSenha(@PathVariable String usuario, @PathVariable String senhaAntiga, @PathVariable String senhaNova){
+    @PutMapping("{usuario}/{senhaNova}")
+    public String alterarSenha(@PathVariable String usuario, @PathVariable String senhaNova){
         for(Conta c : contas){
-            if(c.getUsuario() == usuario && c.getSenha() == senhaAntiga){
+            if(c.getUsuario().equals(usuario)){
                 c.setSenha(senhaNova);
                 return "Senha alterada com sucesso";
             }
         }
-        return "Usuario e/ou senha não encontrada";
+        return "Usuario não encontrada";
     }
 }

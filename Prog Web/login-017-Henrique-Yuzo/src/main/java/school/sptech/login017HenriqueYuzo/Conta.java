@@ -9,14 +9,13 @@ public class Conta {
 
     private boolean isAutenticado;
 
-    public Conta() {
-    }
-
     public Conta(String usuario, String senha, String nome) {
         this.usuario = usuario;
         this.senha = senha;
         this.nome = nome;
         this.isAutenticado = false;
+    }
+    public Conta() {
     }
 
     public String getUsuario() {
@@ -27,7 +26,6 @@ public class Conta {
         this.usuario = usuario;
     }
 
-    @JsonIgnore
     public String getSenha() {
         return senha;
     }
