@@ -22,7 +22,7 @@ public class Carro {
     private LocalDate dataFabricacao;
     @Positive
     @Size(min = 1950, max = 2022)
-    private String modelo;
+    private int modelo;
     @DecimalMin("0.2")
     @DecimalMax("7.0")
     private double potenciaMotor;
@@ -59,11 +59,11 @@ public class Carro {
         this.dataFabricacao = dataFabricacao;
     }
 
-    public String getModelo() {
+    public int getModelo() {
         return modelo;
     }
 
-    public void setModelo(String modelo) {
+    public void setModelo(int modelo) {
         this.modelo = modelo;
     }
 
