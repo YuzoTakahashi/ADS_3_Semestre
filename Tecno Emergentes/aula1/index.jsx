@@ -1,7 +1,6 @@
 const root = window.document.getElementById("root");
 
 function Participante(props) {
-    // var votos = 0;
     const [votos, setVotos] = React.useState(0);
 
     function acrescentar() {
@@ -25,8 +24,8 @@ function Participante(props) {
 function Votacao() {
     return(
         <div>
-            <Participante nome="Ban david"/ >
-            <Participante nome="Ban Felix"/ >
+            <Participante nome="Biscoito"/ >
+            <Participante nome="Bolacha"/ >
         </div> 
     )
 }
