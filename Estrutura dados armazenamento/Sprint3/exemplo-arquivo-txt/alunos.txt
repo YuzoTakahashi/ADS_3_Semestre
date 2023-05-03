@@ -1,0 +1,8 @@
+00NOTA2023126-04-2023 18:17:0701
+02ADS  01221144Vinicius Galdino                                  Estrutura de Dados                      09,50006
+02ADS  01221150Andrey Rodrigues                                  Engenharia de Software                  06,00003
+02REDES01221029Lucas Oliveira                                    Segurança da Informação                 07,00009
+02CCO  01221149Eduardo Francisco                                 Análise de Algoritmos                   08,00000
+02SIS  01221035Matheus Nascimento                                Modelagem de Processos                  10,00001
+02ADS  01221116Yuri Leal                                         Programação Web                         08,50012
+010000000006
