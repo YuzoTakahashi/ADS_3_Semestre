@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Banco {
 
     // Atributos
@@ -15,14 +17,16 @@ public class Banco {
        e empilha a operação para poder ser desfeita. Atualiza contadorOperacao.
      */
     public void debitar(Double valor, ContaBancaria conta) {
-        if (conta.debitar(valor)) {
-            Operacao op = new Operacao(conta, "Depósito", valor);
-            pilhaOperacao.push(op);
-            filaOperacao.insert(op);
-            contadorOperacao++;
-        } else {
-            throw new IllegalArgumentException("Depósito inválido");
+        try {
+            if (conta.debitar(valor)){
+                Operacao o = new Operacao(conta, "Débito", valor);
+                contadorOperacao++;
+
+                pilhaOperacao.push(o);
+            }
+        } catch (IllegalArgumentException erro) {
         }
+
     }
 
     /* Método creditar - recebe o valor a ser depositado e o objeto conta bancária
@@ -31,9 +35,8 @@ public class Banco {
      */
     public void creditar(Double valor, ContaBancaria conta) {
         conta.creditar(valor);
-        Operacao op = new Operacao(conta, "Creditar", valor);
+        Operacao op = new Operacao(conta, "Depósito", valor);
         pilhaOperacao.push(op);
-        filaOperacao.insert(op);
         contadorOperacao++;
     }
 
@@ -43,16 +46,19 @@ public class Banco {
        e atualiza o contadorOperacao
      */
     public void desfazerOperacao(Integer qtdOperacaoDesfeita) {
-        if (qtdOperacaoDesfeita > 0) {
+        if (qtdOperacaoDesfeita <= contadorOperacao && qtdOperacaoDesfeita > 0) {
             for (int i = 0; i < qtdOperacaoDesfeita; i++) {
-                pilhaOperacao.pop();
-                filaOperacao.poll();
-                contadorOperacao++;
+                var conta = pilhaOperacao.pop();
+                if (conta.getTipoOperacao().equals("Débito"))
+                    conta.getContaBancaria().creditar(conta.getValor());
+                if (conta.getTipoOperacao().equals("Depósito"))
+                    conta.getContaBancaria().debitar((conta.getValor()));
+                contadorOperacao--;
             }
+        } else {
+            throw new IllegalArgumentException("Operação inválida");
         }
-        else{
-            throw new IllegalArgumentException("Desfazer inválido");
-        }
+
     }
 
 
@@ -61,24 +67,16 @@ public class Banco {
        Senão, cria um objeto Operacao e insere esse objeto na fila.
     */
     public void agendarOperacao(String tipoOperacao, Double valor, ContaBancaria conta) {
-        if(valor >= 0) {
-            if (tipoOperacao.equalsIgnoreCase("Débito")) {
-                conta.debitar(valor);
-                Operacao op = new Operacao(conta, tipoOperacao, valor);
-                pilhaOperacao.push(op);
-                filaOperacao.insert(op);
-                contadorOperacao++;
-            } else if (tipoOperacao.equalsIgnoreCase("Crédito")) {
-                conta.creditar(valor);
-                Operacao op = new Operacao(conta, tipoOperacao, valor);
-                pilhaOperacao.push(op);
-                filaOperacao.insert(op);
-                contadorOperacao++;
-            }
-        }
-        else{
-            throw new IllegalArgumentException("Operação inválida");
-        }
+        if (!tipoOperacao.equals("Débito") && !tipoOperacao.equals("Depósito"))
+            throw new IllegalArgumentException();
+
+        if (Objects.isNull(valor) || valor <= 0)
+            throw new IllegalArgumentException();
+
+        if (Objects.isNull(conta))
+            throw new IllegalArgumentException();
+        Operacao operacao = new Operacao(conta, tipoOperacao, valor);
+        filaOperacao.insert(operacao);
     }
 
     /* Método executarOperacoesAgendadas
@@ -86,7 +84,13 @@ public class Banco {
        Senão, esvazia a fila, executando cada uma das operações agendadas.
     */
     public void executarOperacoesAgendadas() {
-
+        if (filaOperacao.isEmpty()) {
+            System.out.println("Não existem operações agendadas");
+        } else {
+            while (!filaOperacao.isEmpty()) {
+                filaOperacao.poll();
+            }
+        }
     }
 
     // Gettens

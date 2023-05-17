@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class ContaBancaria {
 
     // Atributos
@@ -19,29 +21,33 @@ public class ContaBancaria {
        Se o saldo for insuficiente para o débito, retorna false
        Senão, atualiza o saldo e retorna true
      */
-    public Boolean debitar(Double valor) {
-        if(valor >= 0 && this.saldo >= valor){
+    public Boolean debitar(Double valor){
+        if (valor == null) {
+            throw new IllegalArgumentException();
+        }
+        if (valor <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (valor <= saldo) {
+            saldo -= valor;
             return true;
         }
-        else if(this.saldo < valor){
-            return false;
-        }
-        else{
-            throw  new IllegalArgumentException("Valor inválido");
-        }
+        return false;
     }
 
     /* Método creditar - recebe o valor a ser depositado
        Se o valor for inválido, deve lançar IllegalArgumentException
        Senão, atualiza o saldo
      */
-    public void creditar(Double valor) {
-        if(valor > 0 && valor != null){
-            this.saldo += valor;
+    public void creditar(Double valor){
+        if (valor == null) {
+            throw new IllegalArgumentException();
         }
-        else{
-            throw new IllegalArgumentException("Crédito inválido");
+        if (valor <= 0) {
+            throw new IllegalArgumentException();
         }
+
+        saldo += valor;
     }
 
 
